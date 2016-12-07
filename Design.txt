@@ -1,0 +1,16 @@
+This system first retrieves the string(containing the weather report in XML format) using the urllib.request module.
+After retrieving the string, it parses it using methods from xml.etree.ElementTree and extract the needed data into a dictionary object.
+The data extracted contains three entries
+    temp: the temperature in Celsius.
+    time: the time when the temperature is recorded
+    day: the day when the temperature is recorded
+If there is an excel file named weather_report.xlsx in the directory of the system, It opens it using the openpyxl module.
+If not, it creates a new file named weather_report.xlsx.
+
+If there is a sheet whose name is equal to the value of the day entry from the data, then the data is entered into that sheet.
+If not, it creates a sheet whose name is equal to the value of the day entry from the data and creates the header on the first row.
+The header looks like this:
+Time | Temperature (Celsius)
+On the rest of the rows are the data entries formatted like this
+12:10 | 10.6
+Then the system enters the data into the sheet and saves it.
