@@ -2,9 +2,11 @@ The System first retrieves the string(containing the weather report in XML forma
 Then the string is parsed using methods from xml.etree.ElementTree and the data are extracted from it into a dictionary object.
 The data extracted contains three entries
 
-    temp: the temperature in Celsius. Type = float
-    time: the time when the temperature was recorded. Type = datetime.time
-    day: the day when the temperature was recorded. Type = datetime.date
+| index  | Type          | Description |
+| :----: | :-----------: | :---------: |
+| 0      | datetime.date | the day when the temperature was recorded. |
+| 1      | datetime.time | the time when the temperature was recorded. |
+| 2      | float         | the temperature in Celsius. |
 
 If there were an excel file with the name of the date when the temperature was recorded, the data would be entered into that file.
 If there is no such excel file, an Excel file with the name of the date is created.
