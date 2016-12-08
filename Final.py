@@ -18,4 +18,4 @@ Excel.update_chart(date, worksheet) #update the chart on the sheet
 
 workbook.save(file_name) #save workbook
 
-Mail.send_file("bptashi@gmail.com", file_name)
+send_mail("renzhentaxibaerde@csc271.adelphi.edu", "a test", file_name)
