@@ -1,7 +1,8 @@
 import requests
 import xml.etree.ElementTree as ET
 import datetime
-#: returns a string representation of the report in xml
+# retrieves the xml containing the latest weather data
+# returns a string representation of the report in xml
 def get_xml():
     url = "http://www.aviationweather.gov/adds/dataserver_current/httpparam"
     parameters = {
@@ -15,6 +16,9 @@ def get_xml():
     response = requests.get(url, params = parameters)
     return response.text
 
+# parses the xml string
+# report: the xml string to be parsed
+#returns a tuple in this format (date, time, temp)
 def parse_xml(report):
     element = ET.fromstring(report).find('data').find('METAR')
 
