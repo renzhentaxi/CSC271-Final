@@ -26,8 +26,12 @@ def parse_xml(report):
     year, month, day = [int(i) for i in date.split("-")]
     hour, minute, second = [int(i) for i in time.split(":")]
 
+    #translates utc time to local time 
+    utc_datetime = datetime.datetime(year, month, day, hour, minute, second)
+    local_datetime = utc_datetime - datetime.timedelta(hours = 5)
+
     return (
-        datetime.date(year, month, day), #date
-        datetime.time(hour, minute, second), #time
+        local_datetime.date(), #date
+        local_datetime.time(), #time
         float(element.find('temp_c').text) #temp
     )
