@@ -29,7 +29,7 @@ Mail.py: contains methods that sends mails.
 Final.py:
 will run once every hour.
 This will be accomplished using Crontab using the following configuration
-0 * * * * path/to/Final.py
+0 * * * * python3 path/to/Final.py
 
 It will first retrieve weather data in the form of xml and parse it into a tuple containing 3 elements. The tuple is then unpacked into three variables date, time and temp.
 The program will attempt to find a workbook in its local directory with the name DATE.xlsx, where DATE equals to the iso format of the date variable that was just extracted.
