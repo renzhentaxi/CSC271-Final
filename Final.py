@@ -18,4 +18,4 @@ Excel.update_chart(date, worksheet) #update the chart on the sheet
 workbook.save(file_name) #save workbook
 
 if time.hour == 23 : #sends mail at the end of day
-    Mail.send("renzhentaxibaerde@csc271.adelphi.edu","Daily weather report: "+ date.isoformat, file_name)
+    Mail.send("mdicrescio@csc271.adelphi.edu","Daily weather report: "+ date.isoformat, file_name)
