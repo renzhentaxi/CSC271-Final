@@ -1,22 +1,48 @@
-The System first retrieves the string(containing the weather report in XML format) using the requests module and the aviation weather API.
-Then the string is parsed using methods from xml.etree.ElementTree and the data are extracted from it into a tuple object.
-The data extracted contains three entries
+This system has four python files:
+XML.py: contains methods that retrieves and parses weather data.
 
-    [0]: the day when the temperature was recorded. Type = datetime.date
-    [1]: the time when the temperature was recorded. Type = datetime.time
-    [2]: the temperature in Celsius. Type = float
+    get_xml(): will retrieve the xml weather data from aviationweather.gov via their api and the requests library.
 
-If there were an excel file with the name of the date when the temperature was recorded, the data would be entered into that file.
-If there is no such excel file, an Excel file with the name of the date is created.
-The loading,manipulating, saving of the Excel files is handled with methods from the openpyxl module.
+    parse_xml(xml): will parse the xml using xml.etree.ElementTree and extracts data into a tuple.
+        The tuple will contain three objects
+        [0]: the day when the temperature was recorded. Type = datetime.date
+        [1]: the time when the temperature was recorded. Type = datetime.time
+        [2]: the temperature in Celsius. Type = float
 
-Each excel file contains one spreadsheet.
-The sheet contains two columns of data formatted using the following format:
-Time  | Temperature (Celsius)
-12:10 | 10.2
-13:10 | 13.1
-14:10 | 12.3
-15:10 | 15.2
-It also contains a Scatter Chart.
-The chart's x-axis is time and y-axis is temperature.
-The title of the chart is the date when the report is created.
+Excel.py: contains methods that creates, loads excel files. There are also methods that enters the data into the excel files and create charts.
+
+    get_workbook(file_name): It will first look if the file exists. If it does then it will load it using the openpyxl library.
+    if it does not exist then it will create it. It will also set cell "A1" to "Time" and "B1" to "Temperature"
+
+    enter_data(time,temp,worksheet): It will append time, temp to the worksheet using openpyxl library. However if the last row of the worksheet contains the same info (which
+    will happen if you run final.py twice within a short frame of time), this method will do nothing.
+
+    update_chart(date, worksheet): It will update/create an scatter chart at "F1" of the worksheet. The chart's title is the date.
+    The x-axis is time and y-axis is temperature.
+    This will be accomplished using openpyxl library
+
+Mail.py: contains methods that sends mails.
+
+    send(to, subject, attachment): sends an email using mutt and os.system method.
+
+
+Final.py:
+will run once every hour.
+This will be accomplished using Crontab using the following configuration
+0 * * * * path/to/Final.py
+
+It will first retrieve weather data in the form of xml and parse it into a tuple containing 3 elements. The tuple is then unpacked into three variables date, time and temp.
+The program will attempt to find a workbook in its local directory with the name DATE.xlsx, where DATE equals to the iso format of the date variable that was just extracted.
+If no such workbook exists, it will create a workbook with that name. The work book will contain only one sheet with two columns.
+The first column or "A" column will contain Time values and the second column or "B" column will contain Temperature values.
+Then it will append the data into the workbook like this:
+| TIME | TEMPERATURE |
+where TIME equals to the time variable and TEMPERATURE equals to the temp variable.
+
+After that, it will create a scatter chart using the time column as x-values and temp column as y-values.
+(Note: openpyxl will delete all charts automatically when it loads the workbook. Therefore, a new chart has to be created every time.)
+Then it will save the workbook as DATE.xlsx
+
+Finally, it will check the hour attribute of the time variable.
+If hour equals to 23 (meaning that this is the last report of the day),
+it will send DATE.xlsx file to a mail address using the os.system method and mutt.
