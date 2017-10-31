@@ -5,6 +5,10 @@ import os
 # file_name: the name of the workbook.
 # returns a workbook if it exist or create one if it doesn't
 def get_workbook(file_name):
+    '''
+    file_name: the name of the workbook.
+    returns a workbook if it exist or create one if it doesn't
+    '''
     if os.path.exists(file_name):
         return openpyxl.load_workbook(file_name)
     else:
